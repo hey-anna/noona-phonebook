@@ -1,16 +1,34 @@
-import React from "react";
+// import React from "react";
+import React, { useEffect, useState } from "react";
 import { SearchBox } from "./SearchBox";
 import { ContactItem } from "./ContactItem";
 import { useSelector } from "react-redux";
 
 export const ContactList = () => {
-  const contactList = useSelector((state) => state.contactList);
+  const { contactList, keyword } = useSelector((state) => state);
+  // const contactList = useSelector((state) => state.contactList);
+  let [filteredList, setFilteredList] = useState([]);
+  useEffect(() => {
+    if (keyword !== "") {
+      let list = contactList.filter((item) => item.name.includes(keyword));
+
+      setFilteredList(list);
+    } else {
+      setFilteredList(contactList);
+    }
+  }, [keyword, contactList]);
   return (
     <>
       <SearchBox />
-      {contactList.map((item) => (
+      <div className="contact-list">
+        num:{filteredList.length}
+        {filteredList.map((item, index) => (
+          <ContactItem item={item} key={index} />
+        ))}
+      </div>
+      {/* {contactList.map((item) => (
         <ContactItem item={item} />
-      ))}
+      ))} */}
     </>
   );
 };

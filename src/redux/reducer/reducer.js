@@ -12,16 +12,17 @@
 // const ADD_CONTACT = "ADD_CONTACT";
 // const SEARCH_CONTACT = "SEARCH_CONTACT";
 // import { ADD_CONTACT, SEARCH_CONTACT } from "./contactActions";
-import { ADD_CONTACT, SEARCH_CONTACT } from "../../actions/contactActions";
+// import { ADD_CONTACT, SEARCH_CONTACT } from "../../actions/contactActions";
 let initialState = {
   contactList: [],
-  searchResults: [],
+  //   searchResults: [],
+  keyword: "",
 };
 
 function reducer(state = initialState, action) {
   const { type, payload } = action;
   switch (type) {
-    case ADD_CONTACT:
+    case "ADD_CONTACT":
       return {
         ...state,
         contactList: [
@@ -33,15 +34,15 @@ function reducer(state = initialState, action) {
           //   },
         ],
       };
-    case SEARCH_CONTACT:
-      // 페이로드를 기준으로 연락처 검색
-      const filteredContacts = state.contactList.filter((contact) =>
-        contact.name.toLowerCase().includes(action.payload.toLowerCase())
-      );
-      return {
-        ...state,
-        searchResults: filteredContacts,
-      };
+    case "SEARCH_BY_USERNAME":
+      return { ...state, keyword: payload.keyword };
+    //   const filteredContacts = state.contactList.filter((contact) =>
+    //     contact.name.toLowerCase().includes(action.payload.toLowerCase())
+    //   );
+    //   return {
+    //     ...state,
+    //     searchResults: filteredContacts,
+    //   };
     default: {
       return { ...state };
     }
